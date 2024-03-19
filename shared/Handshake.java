@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 
 // Class for the handshake
 public class Handshake {
+
     // Handshake header that is an 18-byte string
     private final String header = "P2PFILESHARINGPROJ";
 
@@ -22,11 +23,14 @@ public class Handshake {
 
     // Function that creates and returns a byte array which is the handshake message
     public byte[] getBytes() {
+
         // Creating the ByteArrayOutputSteam to write bytes into
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         // Try and catch to write the bytes
-        try {
+        try
+         {
+
             // Writing the header
             byteArrayOutputStream.write(header.getBytes());
 
@@ -38,7 +42,8 @@ public class Handshake {
         }
 
         // This is used to handle any errors
-        catch (IOException e) {
+        catch (IOException e) 
+        {
             e.printStackTrace();
         }
 
