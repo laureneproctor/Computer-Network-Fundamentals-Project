@@ -6,9 +6,9 @@ import shared.Handshake;
 import shared.Message;
 
 public class Client {
-	private static final String SERVER_IP = "server_ip_address"; // Replace with the server's IP address
-	private static final int DEFAULT_PORT = 12345; // Replace with the server's port number
-	private static final int PEER_ID = 123; // Replace with the peer's ID
+	private static final String SERVER_IP = "";
+	private static final int DEFAULT_PORT = 8000;
+	private static final int PEER_ID = 123; // temp
 
 	public static void main(String[] args) {
 		int SERVER_PORT = DEFAULT_PORT;
