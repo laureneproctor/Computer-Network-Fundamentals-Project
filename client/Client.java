@@ -31,12 +31,16 @@ public class Client {
 			InputStream inputStream = socket.getInputStream();
 			byte[] receivedHandshakeBytes = new byte[32];
 			int bytesRead = inputStream.read(receivedHandshakeBytes);
-			if (bytesRead == -1) {
+
+			if (!Handshake.isValid(receivedHandshakeBytes) || bytesRead == -1) {
 				System.out.println("Failed to receive handshake message from server.");
+
+				// Close connections
+				socket.close();
 				return;
 			}
 
-			System.out.println("Received handshake from server.");
+			System.out.println("Handshake received from server.");
 
 			// Handle messages
 

@@ -3,6 +3,7 @@ package shared;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 // Class for the handshake
 public class Handshake {
@@ -49,5 +50,29 @@ public class Handshake {
 
         // Returns the output stream as a byte array
         return byteArrayOutputStream.toByteArray();
+    }
+
+    // Validate handshake
+    public static boolean isValid(byte[] handshakeBytes) {
+        // Check length
+        if (handshakeBytes.length != 32) {
+            return false;
+        }
+
+        // String portion
+        String header = new String(handshakeBytes, 0, 18, StandardCharsets.UTF_8);
+
+        if (!header.equals("P2PFILESHARINGPROJ")) {
+            return false;
+        }
+
+        // Ensure next 10 bits are zero
+        for (int i = 18; i < 28; i++) {
+            if (handshakeBytes[i] != 0) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

@@ -25,21 +25,28 @@ public class Server {
 			Socket connection = listener.accept();
 			System.out.println("Got connection request from " + connection.getRemoteSocketAddress());
 
+			// Receive handshake message from the client
+			InputStream inputStream = connection.getInputStream();
+			byte[] receivedHandshakeBytes = new byte[32]; // Assuming handshake message size is 32 bytes
+			int bytesRead = inputStream.read(receivedHandshakeBytes);
+
+			if (!Handshake.isValid(receivedHandshakeBytes) || bytesRead == -1) {
+				System.out.println("Failed to receive handshake message from client.");
+
+				// Close connections
+				connection.close();
+				listener.close();
+				return;
+			}
+
+			System.out.println("Handshake received from client.");
+
 			// Send handshake message to the client
 			Handshake handshake = new Handshake(PEER_ID);
 			byte[] handshakeBytes = handshake.getBytes();
 			OutputStream outputStream = connection.getOutputStream();
 			outputStream.write(handshakeBytes);
 			System.out.println("Handshake sent to client.");
-
-			// Receive handshake message from the client
-			InputStream inputStream = connection.getInputStream();
-			byte[] receivedHandshakeBytes = new byte[32]; // Assuming handshake message size is 32 bytes
-			int bytesRead = inputStream.read(receivedHandshakeBytes);
-			if (bytesRead == -1) {
-				System.out.println("Failed to receive handshake message from client.");
-				return;
-			}
 
 			// Close the connection
 			connection.close();
