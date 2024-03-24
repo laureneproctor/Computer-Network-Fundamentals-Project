@@ -1,13 +1,16 @@
 package client;
 
 import java.net.*;
+
+import peer.Peer;
+
 import java.io.*;
 import shared.Handshake;
 import shared.Message;
 
 public class Client extends Thread {
 	String ip = "";
-	int myPierID;
+	Peer me;
 	int theirPeerID;
 	int port;
 
@@ -18,8 +21,8 @@ public class Client extends Thread {
 	String MESSAGE; // Capitalized message read from the server
 
 
-	public Client(int myPeerID, int thierPeerID, String ip, int port) {
-		this.myPierID = myPeerID;
+	public Client(Peer me, int thierPeerID, String ip, int port) {
+		this.me = me;
 		this.theirPeerID = thierPeerID;
 		this.ip = ip;
 		this.port = port;
@@ -36,7 +39,7 @@ public class Client extends Thread {
 			in = new ObjectInputStream(socket.getInputStream());
 
 			// Send handshake message to the server
-			Handshake handshake = new Handshake(myPierID);
+			Handshake handshake = new Handshake(me.getId());
 			byte[] handshakeBytes = handshake.getBytes();
 			out.write(handshakeBytes);
 			out.flush();

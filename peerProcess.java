@@ -9,24 +9,34 @@ import java.util.ArrayList;
 import client.Client;
 import peer.Peer;
 
-public class peerProcess {
+public class peerProcess 
+{
 
     public static ArrayList<Peer> peers = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+    
         int peerID = 0;
 
         // Get Peer ID
-        if (args.length > 0) {
+        if (args.length > 0)
+         {
             String firstArgument = args[0];
-            try {
+
+            try
+             {
                 peerID = Integer.parseInt(firstArgument);
                 System.out.println("My PeerID: " + peerID);
-            } catch (NumberFormatException e) {
+
+            }
+             catch (NumberFormatException e) 
+             {
                 System.err.println("Cannot convert to int" + firstArgument);
             }
         } 
-        else {
+        else
+         {
             System.err.println("No arguments provided.");
         }
         
@@ -36,8 +46,11 @@ public class peerProcess {
         // Read Peer info
         peerProcess.readPeers(peerID);
         Peer currentPeer = null;
-        for (Peer peer : peers) {
-            if (peer.getId() == peerID) {
+
+        for (Peer peer : peers) 
+        {
+            if (peer.getId() == peerID)
+             {
                 currentPeer = peer;
             }
         }
@@ -47,24 +60,31 @@ public class peerProcess {
         server.start();
 
         // Connect to peers
-        for (Peer peer : peers) {
-            if (peer != null && peer.getId() == currentPeer.getId()) {
+        for (Peer peer : peers) 
+        {
+            if (peer != null && peer.getId() == currentPeer.getId())
+             {
                 break;
             }
 
-            Client client = new Client(currentPeer.getId(), peer.getId(), "", peer.getlisteningPort());
+            Client client = new Client(currentPeer, peer.getId(), "", peer.getlisteningPort());
+
             client.start();
         }
 
     }
 
-    private static void readPeers(int currentPeer) {
+    private static void readPeers(int currentPeer) 
+    {
         try (BufferedReader br = new BufferedReader(new FileReader("./project_config_file_small/PeerInfo.cfg"))) {
+            
             String line;
 
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null)
+             {
                 String[] parts = line.split(" ");
                 int peerId = Integer.parseInt(parts[0]);
+
                 String hostname = parts[1];
                 int port = Integer.parseInt(parts[2]);
                 int hasFile = Integer.parseInt(parts[3]);
@@ -73,7 +93,9 @@ public class peerProcess {
                 peers.add(peer);
             }
 
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             e.printStackTrace();
         }
     }

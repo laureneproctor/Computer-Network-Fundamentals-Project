@@ -108,6 +108,8 @@ public class Server extends Thread {
 				// recieve message stream while connetion is viable
 				while (clientConnected) {
 					int incoming = in.read();
+
+					// Client Disconnected
 					if (incoming == -1) {
 						clientConnected = false;
 					}
