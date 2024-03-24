@@ -4,6 +4,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+/*
+ *  - The handshake class defines the basic handshake transaction between the client and server
+ *  - This would include how the header is passed through the stream
+ * - This also checks whether the header is equal to whats expected, returning a boolean accordingly
+ */
 
 // Class for the handshake
 public class Handshake {
@@ -61,6 +66,7 @@ public class Handshake {
         // String portion
         String header = new String(handshakeBytes, 0, 18, StandardCharsets.UTF_8);
 
+        // header is not correct, not validated
         if (!header.equals("P2PFILESHARINGPROJ")) {
             return false;
         }
