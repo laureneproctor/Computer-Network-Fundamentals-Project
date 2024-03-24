@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 
 // Class for the handshake
 public class Handshake {
-
     // Handshake header that is an 18-byte string
     private final String header = "P2PFILESHARINGPROJ";
 
