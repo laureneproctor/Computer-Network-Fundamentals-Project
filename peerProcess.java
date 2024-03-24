@@ -52,7 +52,7 @@ public class peerProcess {
                 break;
             }
 
-            Client client = new Client(currentPeer.getId(), peer.getId(), "", peer.getlisteningPort());
+            Client client = new Client(currentPeer, peer.getId(), "", peer.getlisteningPort());
             client.start();
         }
 

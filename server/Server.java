@@ -85,6 +85,8 @@ public class Server extends Thread {
 				
 				while (clientConnected) {
 					int incoming = in.read();
+
+					// Client Disconnected
 					if (incoming == -1) {
 						clientConnected = false;
 					}
