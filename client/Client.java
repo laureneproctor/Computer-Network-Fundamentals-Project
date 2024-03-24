@@ -55,9 +55,13 @@ public class Client extends Thread
 
 			in = new ObjectInputStream(socket.getInputStream());
 
-			// Send handshake message to the server
+			// Creating a handshake using Handshake class
 			Handshake handshake = new Handshake(me.getId());
+
+			// Converting handshake created to bytes
 			byte[] handshakeBytes = handshake.getBytes();
+
+			// Send handshake message to the server
 			out.write(handshakeBytes);
 			out.flush();
 
