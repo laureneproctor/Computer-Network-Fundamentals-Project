@@ -79,9 +79,11 @@ public class Client extends Thread
 			// Printing out that the handshake was complete
 			System.out.println("Handshake completed with Peer " + theirPeerID);
 
+			// Using a temporary string for the payload
+			String temporaryString = "message";
+
 			// Building a message by using Message class
-			// receivedHandshakeBytes may not be the correct variable to pass in
-			Message message = new Message((byte) 0, receivedHandshakeBytes);
+			Message message = new Message((byte) 0, temporaryString.getBytes());
 			
 			// Converting the message to bytes
 			byte[] messageBytes = message.getBytes();
