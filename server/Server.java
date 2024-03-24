@@ -16,82 +16,109 @@ import java.util.*;
 
 import shared.Handshake;
 
-public class Server extends Thread {
+// Server class
+public class Server extends Thread
+{
 
 	int port;
 
 	// server constructor
-	public Server(int port) {
+	public Server(int port)
+	{
 		this.port = port;
 	}
 
 	// run() creates a new ServerSocket Object which listens to establish connection from client
 	public void run() {
+
+		// Printing that the server is running on the port
 		System.out.println("The server is running on port " + port);
 		System.out.println();
 
 		// create a new Socket Server instance
-		try {
+		try 
+		{
+
 			ServerSocket listener = new ServerSocket(port);
 			int clientNum = 1;
-			try {
+			try 
+			{
 				// while the connection is open
-				while (true) {
+				while (true) 
+				{
 					// while there is a viable connection to the current clientNum, create a new Handler object with 
 					new Handler(listener.accept(), clientNum).start();
 					clientNum++;
 				}
 			} 
-			finally {
+			finally
+			 {
 				listener.close();
 			} 
 		}
-		catch (Exception e) {
+
+		// Catching errors
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
     }
 
 	// Handler class handles the Socket connections between the server and a given client 
-	private static class Handler extends Thread {
-		String message; // Message received from the client
-		String MESSAGE; // Uppercase message send to the client
-		Socket connection; // Connection scoket
+	private static class Handler extends Thread
+	 {
+		 // Message received from the client
+		String message;
+		// Uppercase message send to the client
+		String MESSAGE; 
+		// Connection scoket
+		Socket connection; 
 		ObjectInputStream in;
 		ObjectOutputStream out;  
-		int no; // The index number of the client
+		// The index number of the client
+		int no; 
 
 		// connection information: connection status and peerID
 		boolean clientConnected;
 		int connectedPeerID;
 
 		// Handler constructor
-		public Handler(Socket connection, int no) {
+		public Handler(Socket connection, int no) 
+		{
 			this.connection = connection;
 			this.no = no;
 		}
 
 		// the run function in the Handler class initilializes the recieving and sending processes of the Handshake
-		public void run() {
-			try {
+		public void run() 
+		{
+			try 
+			{
 				// Initialize Input and Output streams
 				out = new ObjectOutputStream(connection.getOutputStream());
 				out.flush();
 				in = new ObjectInputStream(connection.getInputStream());
 
 				// Receive handshake message from the client
-				byte[] receivedHandshakeBytes = new byte[32]; // Assuming handshake message size is 32 bytes
+				// Assuming handshake message size is 32 bytes
+				byte[] receivedHandshakeBytes = new byte[32]; 
+
+				// Reading the bytes from the client
 				int bytesRead = in.read(receivedHandshakeBytes);
 
 				// connectedPeerID is the integer-conversion of the four bytes of receivedHandshakeBytes starting from index 28
 				// AKA the last 4 bytes of receivedHandshakeBytes
 				connectedPeerID = ByteBuffer.wrap(receivedHandshakeBytes, 28, 4).getInt();
+
+				// Print out which peer is connected
 				System.out.println("Peer " + connectedPeerID + " Connected");
 
 				// set client Connection to true
 				clientConnected = true;
 
 				// case that connection failed or no bytes are read
-				if (!Handshake.isValid(receivedHandshakeBytes) || bytesRead == -1) {
+				if (!Handshake.isValid(receivedHandshakeBytes) || bytesRead == -1) 
+				{
 					System.out.println("Failed to receive handshake message from client.");
 
 					// Close connections
@@ -106,41 +133,58 @@ public class Server extends Thread {
 				out.flush();
 				
 				// recieve message stream while connetion is viable
-				while (clientConnected) {
+				while (clientConnected)
+				 {
 					int incoming = in.read();
 
 					// Client Disconnected
-					if (incoming == -1) {
+					if (incoming == -1) 
+					{
 						clientConnected = false;
 					}
 				}
 			
 			}
-			catch (IOException ioException){
+
+			// Catching socket errors
+			catch (IOException ioException)
+			{
 				System.out.println("Socket Error");
 			}
-			finally{
+			finally
+			{
 				// Close connections 
-				try {
+				try
+				 {
 					in.close();
 					out.close();
 					connection.close();
+
+					// Printing out that the connections were closed
 					System.out.println("Peer " + connectedPeerID + " Disconnected");
 				}
-				catch (IOException ioException){
+
+				// Catching erros
+				catch (IOException ioException)
+				{
 					System.out.println("Disconnect with Client " + connectedPeerID);
 				}
 			}
 		}
 
 	// Send a message to the output stream
-	public void sendMessage(String msg) {
-		try {
+	public void sendMessage(String msg) 
+	{
+		try
+		 {
 			out.writeObject(msg);
 			out.flush();
 			System.out.println("Send message: " + msg + " to Client " + no);
 		}
-		catch (IOException ioException){
+
+		// Catching ioException error
+		catch (IOException ioException)
+		{
 			ioException.printStackTrace();
 		}
 	}

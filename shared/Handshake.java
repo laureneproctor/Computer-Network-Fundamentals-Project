@@ -11,7 +11,8 @@ import java.nio.charset.StandardCharsets;
  */
 
 // Class for the handshake
-public class Handshake {
+public class Handshake 
+{
     // Handshake header that is an 18-byte string
     private final String header = "P2PFILESHARINGPROJ";
 
@@ -27,7 +28,8 @@ public class Handshake {
     }
 
     // Function that creates and returns a byte array which is the handshake message
-    public byte[] getBytes() {
+    public byte[] getBytes() 
+    {
 
         // Creating the ByteArrayOutputSteam to write bytes into
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -57,9 +59,11 @@ public class Handshake {
     }
 
     // Validate handshake
-    public static boolean isValid(byte[] handshakeBytes) {
+    public static boolean isValid(byte[] handshakeBytes) 
+    {
         // Check length
-        if (handshakeBytes.length != 32) {
+        if (handshakeBytes.length != 32) 
+        {
             return false;
         }
 
@@ -67,13 +71,16 @@ public class Handshake {
         String header = new String(handshakeBytes, 0, 18, StandardCharsets.UTF_8);
 
         // header is not correct, not validated
-        if (!header.equals("P2PFILESHARINGPROJ")) {
+        if (!header.equals("P2PFILESHARINGPROJ")) 
+        {
             return false;
         }
 
         // Ensure next 10 bits are zero
-        for (int i = 18; i < 28; i++) {
-            if (handshakeBytes[i] != 0) {
+        for (int i = 18; i < 28; i++)
+         {
+            if (handshakeBytes[i] != 0)
+             {
                 return false;
             }
         }

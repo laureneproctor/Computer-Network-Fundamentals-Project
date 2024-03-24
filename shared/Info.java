@@ -5,7 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Info {
+public class Info
+ {
 
     static Info instance;
 
@@ -17,27 +18,36 @@ public class Info {
     public static long PieceSize;
 
 
-    private Info() {
+    private Info()
+    {
         readCommonConfig();
     }
 
-    public static Info getInstance() {
-        if (instance == null) {
+    public static Info getInstance() 
+    {
+        if (instance == null) 
+        {
             return new Info();
         }
 
         return instance;
     }
 
-    public static void readCommonConfig() {
+    public static void readCommonConfig() 
+    {
         Properties prop = new Properties();
         String file = "./project_config_file_small/Common.cfg";
         
-        try (FileInputStream fis = new FileInputStream(file)) {
+        try (FileInputStream fis = new FileInputStream(file)) 
+        {
             prop.load(fis);
-        } catch (FileNotFoundException ex) {
+        } 
+        catch (FileNotFoundException ex) 
+        {
             System.out.println("File not found");
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             System.out.println("File could not be opened");
         }
 
@@ -50,7 +60,8 @@ public class Info {
         
     }
 
-    public static void printVariables() {
+    public static void printVariables() 
+    {
         System.out.println("NumberOfPreferredNeighbors: " + NumberOfPreferredNeighbors);
         System.out.println("UnchokingInterval: " + UnchokingInterval);
         System.out.println("OptimisticUnchokingInterval: " + OptimisticUnchokingInterval);

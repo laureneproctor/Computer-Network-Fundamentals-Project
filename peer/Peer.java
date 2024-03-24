@@ -3,14 +3,17 @@ package peer;
 /*
     Peer class contains peer metrics which include the id, name of the host, port the connection is on, and the file it has
  */  
-public class Peer {
+public class Peer 
+{
+    // Peer class variables 
     int id;
     String hostname;
     int listeningPort;
     int hasFile;
 
     //constructor for Peer object
-    public Peer(int id, String hostname, int listeningPort, int hasFile) {
+    public Peer(int id, String hostname, int listeningPort, int hasFile) 
+    {
         this.id = id;
         this.hostname = hostname;
         this.listeningPort = listeningPort;
@@ -18,17 +21,21 @@ public class Peer {
     }
 
     // returns the id of the peer as an integer
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
     // returns the port number as an integer
-    public int getlisteningPort() {
+    public int getlisteningPort() 
+    {
         return listeningPort;
     }
 
     // a function that prints all of the peer info
     public void printVariables() {
+
+        // Prints out id, hostname, listeningPort and if it has a file
         System.out.println("id: " + id);
         System.out.println("hostname: " + hostname);
         System.out.println("listeningPort: " + listeningPort);

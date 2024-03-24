@@ -17,7 +17,8 @@ public class Message
     private byte[] payload;
 
     // Constructor used to define the variables type, payload, and length
-    public Message(byte type, byte[] payload) {
+    public Message(byte type, byte[] payload) 
+    {
         this.type = type;
         this.payload = payload;
         this.length = payload.length;
