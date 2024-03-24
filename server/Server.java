@@ -15,16 +15,20 @@ import java.nio.channels.*;
 import java.util.*;
 
 import shared.Handshake;
+import shared.MyLogger;
+import peer.Peer;
 
 // Server class
 public class Server extends Thread
 {
 
+	Peer me;
 	int port;
 
 	// server constructor
-	public Server(int port)
-	{
+	public Server(Peer me, int port)
+	{	
+		this.me = me;
 		this.port = port;
 	}
 
@@ -47,7 +51,7 @@ public class Server extends Thread
 				while (true) 
 				{
 					// while there is a viable connection to the current clientNum, create a new Handler object with 
-					new Handler(listener.accept(), clientNum).start();
+					new Handler(listener.accept(), me, clientNum).start();
 					clientNum++;
 				}
 			} 
@@ -81,11 +85,13 @@ public class Server extends Thread
 		// connection information: connection status and peerID
 		boolean clientConnected;
 		int connectedPeerID;
+		Peer me;
 
 		// Handler constructor
-		public Handler(Socket connection, int no) 
+		public Handler(Socket connection, Peer me, int no) 
 		{
 			this.connection = connection;
+			this.me = me;
 			this.no = no;
 		}
 
@@ -112,6 +118,7 @@ public class Server extends Thread
 
 				// Print out which peer is connected
 				System.out.println("Peer " + connectedPeerID + " Connected");
+				MyLogger.logTCPFrom(me.getId(), connectedPeerID);
 
 				// set client Connection to true
 				clientConnected = true;

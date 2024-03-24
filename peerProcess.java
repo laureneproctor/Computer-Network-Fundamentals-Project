@@ -1,11 +1,11 @@
-import shared.Info;
-import server.Server;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import shared.Info;
+import shared.MyLogger;
+import server.Server;
 import client.Client;
 import peer.Peer;
 
@@ -44,6 +44,10 @@ public class peerProcess
         // Read config data
         Info.readCommonConfig();
 
+        // Initialize Logger
+        String fileName = "log_peer_" + peerID +".log";
+        MyLogger.initializeLogger(fileName);
+
         // Read Peer info
         peerProcess.readPeers(peerID);
         Peer currentPeer = null;
@@ -57,7 +61,7 @@ public class peerProcess
         }
 
         // Start Server
-        Server server = new Server(currentPeer.getlisteningPort());
+        Server server = new Server(currentPeer, currentPeer.getlisteningPort());
         server.start();
 
         // Connect to peers

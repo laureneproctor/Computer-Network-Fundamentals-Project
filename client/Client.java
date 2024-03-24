@@ -8,6 +8,7 @@ import peer.Peer;
 import java.io.*;
 import shared.Handshake;
 import shared.Message;
+import shared.MyLogger;
 
 // Client class
 public class Client extends Thread
@@ -49,6 +50,7 @@ public class Client extends Thread
 
 			// Print message stating the connection was made
 			System.out.println("Connected to server with PeerID: " + theirPeerID + ", IP: " + ip + ", PORT: " + port);
+			MyLogger.logTCPTo(me.getId(), theirPeerID);
 
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
